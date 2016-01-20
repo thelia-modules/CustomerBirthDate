@@ -7,7 +7,7 @@
 
             <div class="control-input col-sm-2">
                 <select name="{$name}[day]" class="form-control" aria-required="true" required>
-                    <option>{intl l="Jour"}</option>
+                    <option>{intl l="Day" d='customerbirthdate.fo.default'}</option>
                     {foreach from=$days item=day}
                         <option value="{$day}"
                                 {if $value["day"] == $day}selected{/if}>{$day}</option>
@@ -17,7 +17,7 @@
 
             <div class="control-input col-sm-2">
                 <select name="{$name}[month]" class="form-control" aria-required="true" required>
-                    <option>{intl l="Mois"}</option>
+                    <option>{intl l="Month" d='customerbirthdate.fo.default'}</option>
                     {foreach from=$months item=month}
                         <option value="{$month}"
                                 {if $value["month"] == $month}selected{/if}>{$month}</option>
@@ -27,7 +27,7 @@
 
             <div class="control-input col-sm-2">
                 <select name="{$name}[year]" class="form-control" aria-required="true" required>
-                    <option>{intl l="Année"}</option>
+                    <option>{intl l="Year" d='customerbirthdate.fo.default'}</option>
                     {foreach from=$years item=year}
                         <option value="{$year}"
                                 {if $value["year"] == $year}selected{/if}>{$year}</option>
