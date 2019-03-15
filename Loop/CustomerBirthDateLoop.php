@@ -35,7 +35,13 @@ class CustomerBirthDateLoop extends BaseLoop implements PropelSearchLoopInterfac
      */
     public function buildModelCriteria()
     {
-        return CustomerBirthDateQuery::create();
+        $query = CustomerBirthDateQuery::create();
+        
+        if (null !== $id = $this->getId()) {
+            $query->filterById($id);
+        }
+        
+        return $query;
     }
 
     /**
