@@ -3,29 +3,4 @@
 <config xmlns="http://thelia.net/schema/dic/config"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
-
-    <services>
-        <service id="customerbirthdate.services" class="CustomerBirthDate\EventListeners\CustomerBirthDateEventListener" scope="request">
-            <argument id="request" type="service"/>
-            <tag name="kernel.event_subscriber"/>
-        </service>
-    </services>
-
-    <hooks>
-        <hook id="customerbirthdate.hook" class="CustomerBirthDate\Hook\CustomerBirthDateHook" scope="request">
-            <tag name="hook.event_listener" event="register.form-bottom" type="front" method="onRegister" />
-            <tag name="hook.event_listener" event="register.after-javascript-include" type="front" method="onRegisterAddJs" />
-            <tag name="hook.event_listener" event="account-update.form-bottom" type="front" method="onFrontUpdate" />
-            <tag name="hook.event_listener" event="account-update.after-javascript-include" type="front" method="onFrontUpdateAddJs" />
-            <tag name="hook.event_listener" event="customer.create-form" type="back" method="onBackCreate" />
-            <tag name="hook.event_listener" event="customers.js" type="back" method="onBackCreateAddJs" />
-            <tag name="hook.event_listener" event="customer-edit.bottom" type="back" method="onBackUpdate" />
-            <tag name="hook.event_listener" event="customer.edit-js" type="back" method="onBackUpdateAddJs" />
-        </hook>
-    </hooks>
-
-    <loops>
-        <loop name="customerbirthdate" class="CustomerBirthDate\Loop\CustomerBirthDateLoop" />
-    </loops>
-
 </config>
