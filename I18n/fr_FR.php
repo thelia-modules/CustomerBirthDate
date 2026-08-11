@@ -1,4 +1,10 @@
 <?php
-return array(
-    // 'an english string' => 'La traduction française de la chaine',
-);
+
+declare(strict_types=1);
+
+return [
+    'Year' => 'Année',
+    'Date of birth' => 'Date de naissance',
+    'Day' => 'Jour',
+    'Month' => 'Mois',
+];
