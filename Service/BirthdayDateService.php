@@ -61,7 +61,8 @@ final class BirthdayDateService
                         new LessThanOrEqual(date('Y-m-d')),
                     ],
                     'widget' => 'choice',
-                    'years' => range(date('Y') - 90, date('Y')),
+                    // Same span as the GreaterThanOrEqual constraint above.
+                    'years' => range((int) date('Y') - 120, (int) date('Y')),
                     'input' => 'string',
                     'data' => $birthDate?->getBirthDate('Y-m-d'),
                 ]

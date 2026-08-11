@@ -130,8 +130,9 @@ class CustomerBirthDateEventListener implements EventSubscriberInterface
         // The column is a DATE: "!" resets the time part instead of taking "now".
         $date = \DateTime::createFromFormat('!Y-m-d', $value) ?: null;
 
-
-        if (null === $date || $date > new \DateTime('today')) {
+        // Same bounds as the form constraints: the value is read from the raw request,
+        // so it must be re-validated here.
+        if (null === $date || $date > new \DateTime('today') || $date < new \DateTime('today -120 years')) {
             return null;
         }
 
