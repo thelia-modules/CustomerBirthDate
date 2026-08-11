@@ -1,0 +1,22 @@
+{%- block birthday_widget -%}
+{%- if widget == 'single_text' -%}
+	{{- block('form_widget_simple') -}}
+{%- else -%}
+	{%- set attr = attr|merge({class: ('CustomerBirthDate ' ~ attr.class|default(''))|trim}) -%}
+	<div {{ block('widget_container_attributes') }}>
+		{{- date_pattern|replace({
+                '{{ day }}': form_widget(form.day, {
+                    placeholder: 'Day'|trans({}, 'customerbirthdate'),
+                    attr: {'aria-label': 'Day'|trans({}, 'customerbirthdate'), class : 'flex-auto'},
+                }),
+                '{{ month }}': form_widget(form.month, {
+                    placeholder: 'Month'|trans({}, 'customerbirthdate'),
+                    attr: {'aria-label': 'Month'|trans({}, 'customerbirthdate'), class : 'flex-auto'},
+                }),
+                '{{ year }}': form_widget(form.year, {
+                    placeholder: 'Year'|trans({}, 'customerbirthdate'),
+                    attr: {'aria-label': 'Year'|trans({}, 'customerbirthdate'), class : 'flex-auto'},
+                }),
+            })|raw -}}
+	</div>
+{%- endif -%}{%- endblock birthday_widget -%}

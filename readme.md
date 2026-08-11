@@ -4,46 +4,52 @@ Add a date of birth input in customers' forms
 
 ## Installation
 
-### Manually
-
-* Copy the module into ```<thelia_root>/local/modules/``` directory and be sure that the name of the module is CustomerBirthDate.
-* Activate it in your thelia administration panel
-
-### Composer
-
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/customer-birth-date-module:~1.1
+composer require thelia/customer-birth-date-module
 ```
 
 ## Usage
 
-Once activated, inputs asking for customer's birth date appear:
-- in the customer register page
-- in the customer update account page
-- in the admin 'create customer' form
-- in the admin 'customer' page
+This module adds a birthday field via a Thelia event. By default, the birthday is added to database when a customer is created or updated (back office and front office). However, you must still add the following listener to the forms in your front-end theme:
 
-## Loop
+```php
+#[AsEventListener(event: TheliaEvents::FORM_AFTER_BUILD.‘.name_of_form’)]
+class NameOfForm {
 
-customerbirthdate
+// code
 
-### Input arguments
+    public function __invoke(TheliaFormEvent $event): void
+    {
+        BirthdayDateService::apply($event, $options);
+    }
 
-|Argument |Description |
-|---      |---         |
-|**id**   | The customer id you want to diplay the date of birth |
+}
+```
 
-### Output arguments
+## Access data in template
 
-|Variable       |Description |
-|---            |---         |
-|$CUSTOMER_ID   | The ID of the customer |
-|$BIRTHDATE     | The date of birth of the customer. Format: *yyyy-mm-dd* |
+Loop has been removed since Thelia 3. But you can still access to birthdate throught twig extension :
 
-### Exemple
+```twig
+{{ getBirthdate(customer.id)}}
+```
 
-{loop type="customerbirthdate" name="birth_date"}
-    <p>Customer ID: {$CUSTOMER_ID} | Date of birth : {$BIRTHDATE}</p>
-{/loop}
+## Design
+
+This module doesn't have css or js file.
+If you want to custom it design, you can add some class or various attr with `$options` like this :
+
+```php
+    public function __invoke(TheliaFormEvent $event): void
+    {
+        BirthdayDateService::apply($event, [
+            'attr' => [
+                'class' => 'BirthdateField flex gap-2'
+            ]
+            // rest of options provided by DateType
+        ]);
+    }
+```
+

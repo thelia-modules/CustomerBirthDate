@@ -22,6 +22,8 @@ declare(strict_types=1);
 namespace CustomerBirthDate;
 
 use Propel\Runtime\Connection\ConnectionInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Thelia\Core\Install\Database;
 use Thelia\Module\BaseModule;
 
@@ -32,6 +34,24 @@ use Thelia\Module\BaseModule;
  */
 class CustomerBirthDate extends BaseModule
 {
+    public const string DOMAIN_NAME = 'customerbirthdate';
+
+    public static function configureServices(ServicesConfigurator $servicesConfigurator): void
+    {
+        $servicesConfigurator->load(self::getModuleCode().'\\', __DIR__)
+            ->exclude([__DIR__.'/I18n/*', __DIR__.'/Model/*'])
+            ->autowire(true)
+            ->autoconfigure(true);
+    }
+
+
+    public static function loadConfiguration(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->loadFromExtension('twig', [
+            'form_themes' => ['@CustomerBirthDateModule/form/birthday_theme.html.twig'],
+        ]);
+    }
+
     public function postActivation(?ConnectionInterface $con = null): void
     {
         $database = new Database($con);
