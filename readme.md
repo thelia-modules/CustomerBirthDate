@@ -12,44 +12,50 @@ composer require thelia/customer-birth-date-module
 
 ## Usage
 
-This module adds a birthday field via a Thelia event. By default, the birthday is added to database when a customer is created or updated (back office and front office). However, you must still add the following listener to the forms in your front-end theme:
+This module adds a birthday field via a Thelia event. The field is added automatically
+to the back office customer create and update forms, and the submitted value is saved
+when a customer is created or updated (back office and front office).
+
+To display the field on a front office form, add a listener in your theme that attaches
+it to the form of your choice:
 
 ```php
-#[AsEventListener(event: TheliaEvents::FORM_AFTER_BUILD.‘.name_of_form’)]
-class NameOfForm {
+use CustomerBirthDate\Service\BirthdayDateService;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Thelia\Core\Event\TheliaEvents;
+use Thelia\Core\Event\TheliaFormEvent;
 
-// code
-
+#[AsEventListener(event: TheliaEvents::FORM_AFTER_BUILD.'.name_of_form')]
+class AddBirthDateToCustomerForm
+{
     public function __invoke(TheliaFormEvent $event): void
     {
-        BirthdayDateService::apply($event, $options);
+        BirthdayDateService::apply($event);
     }
-
 }
 ```
 
 ## Access data in template
 
-Loop has been removed since Thelia 3. But you can still access to birthdate throught twig extension :
+Loops were removed in Thelia 3. You can access the birth date through the Twig extension:
 
 ```twig
-{{ getBirthdate(customer.id)}}
+{{ customer_birthdate(customer.id) }}
 ```
 
 ## Design
 
-This module doesn't have css or js file.
-If you want to custom it design, you can add some class or various attr with `$options` like this :
+This module doesn't ship any CSS or JS file.
+To customize the field, pass any `DateType` option (classes, attributes, ...) to `apply()`:
 
 ```php
     public function __invoke(TheliaFormEvent $event): void
     {
         BirthdayDateService::apply($event, [
             'attr' => [
-                'class' => 'BirthdateField flex gap-2'
-            ]
-            // rest of options provided by DateType
+                'class' => 'BirthdateField flex gap-2',
+            ],
+            // any other option supported by DateType
         ]);
     }
 ```
-
