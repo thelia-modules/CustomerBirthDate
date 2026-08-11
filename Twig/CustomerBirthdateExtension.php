@@ -28,7 +28,7 @@ final class CustomerBirthdateExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getBirthdate', [$this, 'getBirthdate']),
+            new TwigFunction('customer_birthdate', [$this, 'getBirthdate']),
         ];
     }
 
