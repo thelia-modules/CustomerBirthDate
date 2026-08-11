@@ -35,19 +35,20 @@ use Thelia\Model\Customer;
  */
 class CustomerBirthDateEventListener implements EventSubscriberInterface
 {
-    public function __construct(private RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            // Add field on backOffice form
+            // Add the field on the back office forms
             TheliaEvents::FORM_AFTER_BUILD.'.'.CustomerCreateForm::getName() => ['addBirthdateInput', 100],
             TheliaEvents::FORM_AFTER_BUILD.'.'.CustomerUpdateForm::getName() => ['addBirthdateInput', 100],
-            TheliaEvents::CUSTOMER_CREATEACCOUNT => ['saveBirthDate', 100],
 
-            // save birthdate
+            // Save the birth date. ADDRESS_CREATE covers registration flows where the
+            // theme attaches the field to an address form instead of the customer form.
+            TheliaEvents::CUSTOMER_CREATEACCOUNT => ['saveBirthDate', 100],
             TheliaEvents::CREATE_CUSTOMER_MINIMAL => ['saveBirthDate', 100],
             TheliaEvents::ADDRESS_CREATE => ['saveBirthDate', 100],
             TheliaEvents::CUSTOMER_UPDATEPROFILE => ['saveBirthDate', 100],
@@ -96,6 +97,10 @@ class CustomerBirthDateEventListener implements EventSubscriberInterface
         return null === $submitted ? null : $this->parseBirthDate($submitted);
     }
 
+    /**
+     * The field can be attached to any form by the theme (see the readme), so its
+     * root form name is not known here: scan the payload for the field key instead.
+     */
     private function findBirthDateValue(array $payload): array|string|null
     {
         foreach ($payload as $key => $value) {

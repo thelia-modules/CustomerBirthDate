@@ -27,7 +27,7 @@ final class BirthdayDateService
 {
     public const string BIRTHDATE_INPUT_NAME = 'birthday_date';
 
-    public static function apply(TheliaFormEvent $event, mixed $options = []): void
+    public static function apply(TheliaFormEvent $event, array $options = []): void
     {
         if ($event->getForm()->getFormBuilder()->has(self::BIRTHDATE_INPUT_NAME)) {
             return;

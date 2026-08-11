@@ -12,13 +12,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-/*      Copyright (c) OpenStudio */
-/*      email : dev@thelia.net */
-/*      web : http://www.thelia.net */
-
-/*      For the full copyright and license information, please view the LICENSE.txt */
-/*      file that was distributed with this source code. */
-
 namespace CustomerBirthDate;
 
 use Propel\Runtime\Connection\ConnectionInterface;
@@ -43,7 +36,6 @@ class CustomerBirthDate extends BaseModule
             ->autowire(true)
             ->autoconfigure(true);
     }
-
 
     public static function loadConfiguration(ContainerBuilder $containerBuilder): void
     {
